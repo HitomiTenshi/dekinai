@@ -1,0 +1,60 @@
+name: Dekinai
+version: "1.0.0"
+author: Johann Rekowski <johann.rekowski@gmail.com>
+about: |-
+    Dekinai is a simple and minimalistic file uploading API.
+    It provides the bare minimum feature set for file hosting services, while also being fast and portable.
+args:
+    - output:
+          value_name: OUTPUT_DIR
+          required: true
+          about: |-
+              Sets the directory for uploaded files
+    - port:
+          short: p
+          long: port
+          value_name: NUMBER
+          default_value: "54298"
+          validator_regex:
+              - ^(?:6553[0-5]|655[0-2]\d|65[0-4]\d{2}|6[0-4]\d{3}|[1-5]\d{4}|[1-9]\d{0,3})$
+              - Value needs to be a number between 1 and 65535
+          display_order: 1
+          about: |-
+              Sets the port number to listen on
+    - unix:
+          short: u
+          long: unix
+          value_name: FILE
+          display_order: 2
+          about: |-
+              Sets the unix socket to listen on (Unix only)
+    - database:
+          short: d
+          long: database
+          value_name: DIR
+          default_value: ./
+          display_order: 3
+          about: |-
+              Sets the directory for the SQLite database
+    - password:
+          long: password
+          env: DEKINAI_PASSWORD
+          value_name: TEXT
+          display_order: 4
+          about: |-
+              Sets a password for API requests
+    - blacklist:
+          short: b
+          long: blacklist
+          value_name: LIST
+          multiple: true
+          display_order: 5
+          about: |-
+              Sets a list of disallowed file extensions
+              Usage: --blacklist asp html php
+    - disable-port:
+          long: disable-port
+          requires: unix
+          conflicts_with: port
+          about: |-
+              Disables port listening (Unix only)

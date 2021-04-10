@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "adpyke.vscode-sql-formatter",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "matklad.rust-analyzer"
+    ]
+}

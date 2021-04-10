@@ -1,0 +1,5 @@
+/.env
+/dekinai.sqlite*
+/target
+/uploads/*
+!/uploads/.gitkeep
