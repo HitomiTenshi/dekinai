@@ -100,4 +100,80 @@ If you now upload a file, the response will look like this:
 
 ## Example Nginx Config
 
-TODO
+```nginx
+upstream dekinai {
+    # Use this if you are using the unix socket option (I do):
+    server unix:/run/dekinai/dekinai.sock;
+
+    # Use this if you are using the reqular port (change the port number if needed):
+    # server localhost:54298;
+}
+
+server {
+    listen 80;
+    server_name dekinai.moe;
+    root /the/path/to/where/dekinai/saves/files;
+
+    # Set the proxy headers:
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Host $host;
+    proxy_http_version 1.1;
+
+    location / {
+        # Try to find a file at current path in root folder and if it doesn't work load /index.html at
+        # whatever path you are at.
+        try_files $uri $uri/ /index.html;
+
+        # Optional: Any file found in root folder that ends with htm or html will be forced to download.
+        # Only necessary if you don't blacklist these file types.
+        if ($request_filename ~* ".+\.(?:htm|html)$") {
+            add_header Content-Disposition attachment;
+        }
+    }
+
+    # Optional: Use this empty location block if you force downloads of html files, otherwise you won't be
+    # able to view the index file.
+    location = /index.html {}
+
+    # Upload location of dekinai. Note the / (slash) sign at the end of proxy_pass! It will make requests
+    # from the root path if the slash at the end is set.
+    location = /upload {
+        proxy_pass http://dekinai/;
+        client_max_body_size 1G;
+    }
+
+    # Regex location for deletion URLs. Note no / (slash) sign at the end of proxy_pass, because I want
+    # dekinai to receive the current path here.
+    location ~* ^/[^/]+/[^/]+/?$ {
+        proxy_pass http://dekinai;
+    }
+
+    # Logging
+    error_log /var/log/nginx/dekinai-error.log warn;
+}
+```
+
+## Example Systemd Config
+
+```systemd
+[Unit]
+Description=Dekinai - Minimalistic Uploading API
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=dekinai
+Group=nginx
+UMask=0002
+WorkingDirectory=/opt/apps
+RuntimeDirectory=dekinai
+RuntimeDirectoryMode=2775
+ExecStart=/opt/apps/dekinai -u /run/dekinai/dekinai.sock -d /opt/apps/dekinai-database --disable-port /the/path/to/where/dekinai/saves/files
+Restart=always
+RestartSec=10
+SyslogIdentifier=dekinai
+# Environment=DEKINAI_PASSWORD="You can add this to define a password through environment variables instead of using --password"
+
+[Install]
+WantedBy=multi-user.target
+```
