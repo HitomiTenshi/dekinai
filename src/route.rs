@@ -156,7 +156,7 @@ fn get_base_url(config: &AppConfig, headers: &HeaderMap) -> Result<String, Error
 
     base_url.push_str("://");
 
-    let host = if let Some(host) = headers.get("x-forwarded-host") {
+    let host = if let Some(host) = headers.get("host") {
         host.to_str().map_err(Error::BadRequest)?
     } else {
         "localhost"
@@ -164,10 +164,7 @@ fn get_base_url(config: &AppConfig, headers: &HeaderMap) -> Result<String, Error
 
     base_url.push_str(host);
 
-    if let Some(port) = headers.get("x-forwarded-port") {
-        base_url.push(':');
-        base_url.push_str(port.to_str().map_err(Error::BadRequest)?);
-    } else if host == "localhost" {
+    if host == "localhost" {
         if let Some(port) = &config.port {
             base_url.push(':');
             base_url.push_str(port);

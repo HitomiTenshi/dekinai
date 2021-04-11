@@ -82,21 +82,19 @@ To change it into your desired base URL provide these headers to Dekinai when re
 
 -   `X-Forwarded-Proto`
     -   Example: `X-Forwarded-Proto: https`
--   `X-Forwarded-Host`
-    -   Example: `X-Forwarded-Host: www.dekinai.moe`
--   Optional: `X-Forwarded-Port`
-    -   Example: `X-Forwarded-Port: 54298`
+-   `Host`
+    -   Example: `Host: www.dekinai.moe`
 -   Optional: `X-Forwarded-Path`
     -   Example: `X-Forwarded-Path: /downloads`
 
-Assuming you provided all of these headers, the response base URL would look like this: https://www.dekinai.moe:54298/downloads/
+Assuming you provided all of these headers, the response base URL would look like this: https://www.dekinai.moe/downloads/
 
 If you now upload a file, the response will look like this:
 
 ```json
 [
-    "https://www.dekinai.moe:54298/downloads/uploadedFile.png",
-    "https://www.dekinai.moe:54298/downloads/uploadedFile.png/VeryRandomPassword"
+    "https://www.dekinai.moe/downloads/uploadedFile.png",
+    "https://www.dekinai.moe/downloads/uploadedFile.png/VeryRandomPassword"
 ]
 ```
 
