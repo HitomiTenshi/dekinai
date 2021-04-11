@@ -135,7 +135,7 @@ server {
     # able to view the index file.
     location = /index.html {}
 
-    # Upload location of dekinai. Note the / (slash) sign at the end of proxy_pass! It will make requests
+    # Upload location of Dekinai. Note the / (slash) sign at the end of proxy_pass! It will make requests
     # from the root path if the slash at the end is set.
     location = /upload {
         proxy_pass http://dekinai/;
@@ -143,7 +143,7 @@ server {
     }
 
     # Regex location for deletion URLs. Note no / (slash) sign at the end of proxy_pass, because I want
-    # dekinai to receive the current path here.
+    # Dekinai to receive the current path here.
     location ~* ^/[^/]+/[^/]+/?$ {
         proxy_pass http://dekinai;
     }
