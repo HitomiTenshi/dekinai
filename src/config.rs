@@ -66,7 +66,7 @@ impl From<&ArgMatches> for AppConfig {
         Self {
             blacklist: matches
                 .values_of("blacklist")
-                .map(|values| values.map(|str| str.to_owned()).collect()),
+                .map(|values| values.map(|str| str.to_lowercase()).collect()),
             output,
             password_hash: matches
                 .value_of("password")
