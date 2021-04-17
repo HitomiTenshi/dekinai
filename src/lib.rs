@@ -1,4 +1,4 @@
-use actix_web::{error::ResponseError, http::StatusCode, HttpResponse};
+use actix_web::{body::Body, error::ResponseError, http::StatusCode, BaseHttpResponse};
 use derive_more::{Display, Error};
 use pbkdf2::{
     password_hash::{PasswordHasher, SaltString},
@@ -33,13 +33,17 @@ impl Error {
 }
 
 impl ResponseError for Error {
-    fn error_response(&self) -> HttpResponse {
-        HttpResponse::new(match *self {
+    fn error_response(&self) -> BaseHttpResponse<Body> {
+        BaseHttpResponse::new(self.status_code())
+    }
+
+    fn status_code(&self) -> StatusCode {
+        match *self {
             Error::BAD_REQUEST => StatusCode::BAD_REQUEST,
             Error::INTERNAL_SERVER_ERROR => StatusCode::INTERNAL_SERVER_ERROR,
             Error::NOT_FOUND => StatusCode::NOT_FOUND,
             Error::UNAUTHORIZED => StatusCode::UNAUTHORIZED,
-        })
+        }
     }
 }
 
