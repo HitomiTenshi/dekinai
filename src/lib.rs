@@ -82,7 +82,6 @@ pub fn hash_password(rng: &mut ThreadRng, password: &str) -> String {
         .hash_password(
             password.as_bytes(),
             None,
-            None,
             Params {
                 output_length: 32,
                 rounds: 10,
