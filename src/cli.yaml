@@ -47,7 +47,7 @@ args:
           short: b
           long: blacklist
           value_name: LIST
-          multiple: true
+          multiple_values: true
           display_order: 5
           about: |-
               Sets a list of disallowed file extensions
