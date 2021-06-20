@@ -138,7 +138,7 @@ async fn create_random_file(
                 deletion_password,
             ));
         } else {
-            db::delete_file(pool, &file_stem, &file_extension).await?;
+            db::delete_file(pool, &file_stem, file_extension).await?;
         }
     }
 
