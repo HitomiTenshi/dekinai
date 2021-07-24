@@ -1,9 +1,10 @@
+cargo-features = ["edition2021"]
+
 [package]
 name = "dekinai"
 version = "1.0.0"
 authors = ["Johann Rekowski <johann.rekowski@gmail.com>"]
-edition = "2018"
-resolver = "2"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
