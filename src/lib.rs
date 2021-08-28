@@ -79,8 +79,9 @@ pub fn get_random_text(rng: &mut ThreadRng, length: usize) -> String {
 
 pub fn hash_password(rng: &mut ThreadRng, password: &str) -> String {
     Pbkdf2
-        .hash_password(
+        .hash_password_customized(
             password.as_bytes(),
+            None,
             None,
             Params {
                 output_length: 32,
