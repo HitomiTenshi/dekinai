@@ -31,7 +31,7 @@ args:
     - database:
           short: d
           long: database
-          value_name: DIR
+          value_name: DATABASE_DIR
           default_value: ./
           display_order: 3
           about: |-
@@ -46,7 +46,7 @@ args:
     - blacklist:
           short: b
           long: blacklist
-          value_name: LIST
+          value_name: FILE_EXTENSION
           multiple_values: true
           display_order: 5
           about: |-
