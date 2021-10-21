@@ -1,5 +1,3 @@
-cargo-features = ["edition2021"]
-
 [package]
 name = "dekinai"
 version = "1.0.0"
