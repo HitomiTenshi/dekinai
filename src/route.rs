@@ -34,10 +34,12 @@ pub async fn upload(req: HttpRequest, mut payload: Multipart) -> Result<web::Jso
     let base_url = get_base_url(config, headers)?;
 
     if let Some(mut field) = payload.try_next().await.map_err(Error::InternalServerError)? {
-        let content_disposition = field.content_disposition().ok_or(Error::BAD_REQUEST)?;
-
-        let file_extension =
-            &lib::get_file_extension(content_disposition.get_filename().ok_or(Error::BAD_REQUEST)?);
+        let file_extension = &lib::get_file_extension(
+            field
+                .content_disposition()
+                .get_filename()
+                .ok_or(Error::BAD_REQUEST)?,
+        );
 
         if let Some(blacklist) = &config.blacklist {
             if blacklist.contains(file_extension) {
