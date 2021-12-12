@@ -35,23 +35,21 @@ Dekinai is a simple and minimalistic file uploading API.
 It provides the bare minimum feature set for file hosting services, while also being fast and portable.
 
 USAGE:
-    dekinai.exe [FLAGS] [OPTIONS] <OUTPUT_DIR>
+    dekinai.exe [OPTIONS] <OUTPUT_DIR>
 
 ARGS:
     <OUTPUT_DIR>    Sets the directory for uploaded files
 
-FLAGS:
-        --disable-port    Disables port listening (Unix only)
-    -h, --help            Prints help information
-    -V, --version         Prints version information
-
 OPTIONS:
-    -p, --port <NUMBER>          Sets the port number to listen on [default: 54298]
-    -u, --unix <FILE>            Sets the unix socket to listen on (Unix only)
-    -d, --database <DIR>         Sets the directory for the SQLite database [default: ./]
-        --password <TEXT>        Sets a password for API requests [env: DEKINAI_PASSWORD=]
-    -b, --blacklist <LIST>...    Sets a list of disallowed file extensions
-                                 Usage: --blacklist asp html php
+    -p, --port <NUMBER>                    Sets the port number to listen on [default: 54298]
+    -u, --unix <FILE>                      Sets the unix socket to listen on (Unix only)
+    -d, --database <DATABASE_DIR>          Sets the directory for the SQLite database [default: ./]
+        --password <TEXT>                  Sets a password for API requests [env: DEKINAI_PASSWORD=]
+    -b, --blacklist <FILE_EXTENSION>...    Sets a list of disallowed file extensions
+                                           Usage: --blacklist asp html php
+        --disable-port                     Disables port listening (Unix only)
+    -h, --help                             Print help information
+    -V, --version                          Print version information
 ```
 
 ## API

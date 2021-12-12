@@ -8,7 +8,7 @@ args:
     - output:
           value_name: OUTPUT_DIR
           required: true
-          about: |-
+          help: |-
               Sets the directory for uploaded files
     - port:
           short: p
@@ -19,14 +19,14 @@ args:
               - ^(?:6553[0-5]|655[0-2]\d|65[0-4]\d{2}|6[0-4]\d{3}|[1-5]\d{4}|[1-9]\d{0,3})$
               - Value needs to be a number between 1 and 65535
           display_order: 1
-          about: |-
+          help: |-
               Sets the port number to listen on
     - unix:
           short: u
           long: unix
           value_name: FILE
           display_order: 2
-          about: |-
+          help: |-
               Sets the unix socket to listen on (Unix only)
     - database:
           short: d
@@ -34,14 +34,14 @@ args:
           value_name: DATABASE_DIR
           default_value: ./
           display_order: 3
-          about: |-
+          help: |-
               Sets the directory for the SQLite database
     - password:
           long: password
           env: DEKINAI_PASSWORD
           value_name: TEXT
           display_order: 4
-          about: |-
+          help: |-
               Sets a password for API requests
     - blacklist:
           short: b
@@ -49,12 +49,12 @@ args:
           value_name: FILE_EXTENSION
           multiple_values: true
           display_order: 5
-          about: |-
+          help: |-
               Sets a list of disallowed file extensions
               Usage: --blacklist asp html php
     - disable-port:
           long: disable-port
           requires: unix
           conflicts_with: port
-          about: |-
+          help: |-
               Disables port listening (Unix only)

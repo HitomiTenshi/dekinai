@@ -1,6 +1,6 @@
 use crate::{config::AppConfig, db, lib, lib::Error};
 use actix_multipart::Multipart;
-use actix_web::{get, http::HeaderMap, post, web, HttpRequest};
+use actix_web::{get, http::header::HeaderMap, post, web, HttpRequest};
 use async_recursion::async_recursion;
 use futures_util::{StreamExt, TryStreamExt};
 use pbkdf2::{
