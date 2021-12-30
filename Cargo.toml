@@ -7,8 +7,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-actix-multipart = "0.4.0-beta.10"
-actix-web = { version = "4.0.0-beta.15", default-features = false }
+actix-multipart = "0.4.0-beta.11"
+actix-web = { version = "4.0.0-beta.18", default-features = false }
 async-recursion = "0.3"
 clap = { git = "https://github.com/clap-rs/clap", rev = "20101a5785a1d117f03feeb60c957671f5c6f3ff", default-features = false, features = ["color", "env", "regex", "std", "suggestions", "wrap_help", "yaml"] }
 derive_more = { version = "0.99", default-features = false, features = ["display", "error"] }
