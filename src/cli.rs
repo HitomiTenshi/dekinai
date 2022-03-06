@@ -2,7 +2,7 @@ use clap::{arg, command, ArgMatches};
 use std::ops::RangeInclusive;
 use std::path::Path;
 
-const PORT_RANGE: RangeInclusive<u16> = 1..=65535;
+const PORT_RANGE: RangeInclusive<usize> = 1..=65535;
 
 pub fn get_matches() -> ArgMatches {
     command!()
@@ -13,7 +13,7 @@ pub fn get_matches() -> ArgMatches {
                 .default_value("54298")
                 .validator(|value| {
                     value
-                        .parse::<u16>()
+                        .parse::<usize>()
                         .map(|port| PORT_RANGE.contains(&port))
                         .map_err(|err| err.to_string())
                         .and_then(|result| match result {
