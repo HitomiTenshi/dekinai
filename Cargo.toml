@@ -1,7 +1,7 @@
 [package]
 name = "dekinai"
 description = "Dekinai is a simple and minimalistic file uploading API.\nIt provides the bare minimum feature set for file hosting services, while also being fast and portable."
-version = "1.0.0"
+version = "1.1.0"
 authors = ["Johann Rekowski <johann.rekowski@gmail.com>"]
 license = "MIT"
 edition = "2021"

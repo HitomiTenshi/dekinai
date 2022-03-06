@@ -27,7 +27,7 @@ For more information try `--help`:
 ```
 $ dekinai.exe --help
 
-dekinai 1.0.0
+dekinai 1.1.0
 Johann Rekowski <johann.rekowski@gmail.com>
 Dekinai is a simple and minimalistic file uploading API.
 It provides the bare minimum feature set for file hosting services, while also being fast and portable.
