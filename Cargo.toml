@@ -1,8 +1,11 @@
 [package]
 name = "dekinai"
+description = "Dekinai is a simple and minimalistic file uploading API.\nIt provides the bare minimum feature set for file hosting services, while also being fast and portable."
 version = "1.0.0"
 authors = ["Johann Rekowski <johann.rekowski@gmail.com>"]
+license = "MIT"
 edition = "2021"
+rust-version = "1.59"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -10,7 +13,7 @@ edition = "2021"
 actix-multipart = "0.4"
 actix-web = { version = "4", default-features = false, features = ["macros"] }
 async-recursion = "1"
-clap = { git = "https://github.com/clap-rs/clap", rev = "20101a5785a1d117f03feeb60c957671f5c6f3ff", default-features = false, features = ["color", "env", "regex", "std", "suggestions", "wrap_help", "yaml"] }
+clap = { version = "3", features = ["cargo", "env", "wrap_help"] }
 derive_more = { version = "0.99", default-features = false, features = ["display", "error"] }
 futures-util = { version = "0.3", default-features = false }
 num_cpus = "1"

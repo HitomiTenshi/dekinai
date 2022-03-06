@@ -2,12 +2,7 @@ use crate::lib;
 use clap::ArgMatches;
 use rand::thread_rng;
 use sqlx::{migrate, migrate::MigrateDatabase, sqlite::SqlitePoolOptions, Sqlite, SqlitePool};
-use std::{
-    path::{Path, PathBuf},
-    process::exit,
-};
-
-const HELP_NOTICE: &str = "\n\nFor more information try --help";
+use std::path::{Path, PathBuf};
 
 #[derive(Clone)]
 pub struct AppConfig {
@@ -24,29 +19,6 @@ pub struct ServerConfig {
 
 impl From<&ArgMatches> for AppConfig {
     fn from(matches: &ArgMatches) -> Self {
-        let output = PathBuf::from(matches.value_of("output").unwrap());
-
-        if !output.is_dir() {
-            println!(
-                "error: Invalid value for '<OUTPUT_DIR>': Cannot access directory \"{}\"{}",
-                output.display(),
-                HELP_NOTICE
-            );
-
-            exit(2);
-        }
-
-        if let Some(password) = matches.value_of("password") {
-            if !password.is_ascii() {
-                println!(
-                    "error: Invalid value for '--password <TEXT>': Value needs to contain only ASCII characters{}",
-                    HELP_NOTICE
-                );
-
-                exit(2);
-            }
-        }
-
         let port: Option<String>;
 
         #[cfg(unix)]
@@ -67,7 +39,7 @@ impl From<&ArgMatches> for AppConfig {
             blacklist: matches
                 .values_of("blacklist")
                 .map(|values| values.map(|str| str.to_lowercase()).collect()),
-            output,
+            output: PathBuf::from(matches.value_of("output").unwrap()),
             password_hash: matches
                 .value_of("password")
                 .map(|str| lib::hash_password(&mut thread_rng(), str)),
@@ -78,21 +50,14 @@ impl From<&ArgMatches> for AppConfig {
 
 impl From<&ArgMatches> for ServerConfig {
     fn from(matches: &ArgMatches) -> Self {
-        let database_dir = Path::new(matches.value_of("database").unwrap());
-
-        if !database_dir.is_dir() {
-            println!(
-                "error: Invalid value for '--database <DIR>': Cannot access directory \"{}\"{}",
-                database_dir.display(),
-                HELP_NOTICE
-            );
-
-            exit(2);
-        }
-
         Self {
             unix: matches.value_of("unix").map(PathBuf::from),
-            database_uri: format!("sqlite://{}", database_dir.join("dekinai.sqlite").display()),
+            database_uri: format!(
+                "sqlite://{}",
+                Path::new(matches.value_of("database").unwrap())
+                    .join("dekinai.sqlite")
+                    .display()
+            ),
         }
     }
 }

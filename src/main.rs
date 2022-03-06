@@ -1,8 +1,8 @@
 use crate::config::{AppConfig, ServerConfig};
 use actix_web::{App, HttpServer};
-use clap::{load_yaml, App as Clap};
 use std::io;
 
+mod cli;
 mod config;
 mod db;
 mod lib;
@@ -10,7 +10,7 @@ mod route;
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
-    let matches = Clap::from(load_yaml!("cli.yaml")).get_matches();
+    let matches = cli::get_matches();
     let app_config = AppConfig::from(&matches);
     let server_config = ServerConfig::from(&matches);
     let pool = server_config.open_database_pool().await.unwrap();
