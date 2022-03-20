@@ -17,7 +17,7 @@ clap = { version = "3", features = ["cargo", "env", "wrap_help"] }
 derive_more = { version = "0.99", default-features = false, features = ["display", "error"] }
 futures-util = { version = "0.3", default-features = false }
 num_cpus = "1"
-pbkdf2 = "0.10"
+pbkdf2 = "0.11"
 rand = "0.8"
 sqlx = { version = "0.5", features = ["runtime-actix-native-tls", "sqlite"] }
 tokio = { version = "1", features = ["fs"] }
