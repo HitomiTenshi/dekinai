@@ -19,16 +19,16 @@ pub enum Error {
 
 #[allow(non_snake_case)]
 impl Error {
-    pub fn BadRequest<T>(_: T) -> Error {
-        Error::BAD_REQUEST
+    pub fn BadRequest<T>(_: T) -> Self {
+        Self::BAD_REQUEST
     }
 
-    pub fn InternalServerError<T>(_: T) -> Error {
-        Error::INTERNAL_SERVER_ERROR
+    pub fn InternalServerError<T>(_: T) -> Self {
+        Self::INTERNAL_SERVER_ERROR
     }
 
-    pub fn Unauthorized<T>(_: T) -> Error {
-        Error::UNAUTHORIZED
+    pub fn Unauthorized<T>(_: T) -> Self {
+        Self::UNAUTHORIZED
     }
 }
 
@@ -39,10 +39,10 @@ impl ResponseError for Error {
 
     fn status_code(&self) -> StatusCode {
         match *self {
-            Error::BAD_REQUEST => StatusCode::BAD_REQUEST,
-            Error::INTERNAL_SERVER_ERROR => StatusCode::INTERNAL_SERVER_ERROR,
-            Error::NOT_FOUND => StatusCode::NOT_FOUND,
-            Error::UNAUTHORIZED => StatusCode::UNAUTHORIZED,
+            Self::BAD_REQUEST => StatusCode::BAD_REQUEST,
+            Self::INTERNAL_SERVER_ERROR => StatusCode::INTERNAL_SERVER_ERROR,
+            Self::NOT_FOUND => StatusCode::NOT_FOUND,
+            Self::UNAUTHORIZED => StatusCode::UNAUTHORIZED,
         }
     }
 }

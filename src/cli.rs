@@ -16,14 +16,11 @@ pub fn get_matches() -> ArgMatches {
                         .parse::<usize>()
                         .map(|port| PORT_RANGE.contains(&port))
                         .map_err(|err| err.to_string())
-                        .and_then(|result| match result {
-                            true => Ok(()),
-                            false => Err(format!(
-                                "Port needs to be a number between {} and {}",
-                                PORT_RANGE.start(),
-                                PORT_RANGE.end()
-                            )),
-                        })
+                        .and_then(|result| if result { Ok(()) } else { Err(format!(
+                            "Port needs to be a number between {} and {}",
+                            PORT_RANGE.start(),
+                            PORT_RANGE.end()
+                        )) })
                 }),
         )
         .arg(arg!(-u --unix <FILE> "Sets the unix socket to listen on (Unix only)").required(false))
@@ -34,9 +31,10 @@ pub fn get_matches() -> ArgMatches {
                 .validator(validate_dir)
         )
         .arg(arg!(--password <TEXT> "Sets a password for API requests").required(false).env("DEKINAI_PASSWORD").validator(|value| {
-            match value.is_ascii() {
-                true => Ok(()),
-                false => Err("Password needs to contain only ASCII characters")
+            if value.is_ascii() {
+                Ok(())
+            } else {
+                Err("Password needs to contain only ASCII characters")
             }
         }))
         .arg(arg!(-b --blacklist <FILE_EXTENSIONS> "Sets a list of disallowed file extensions\nUsage: --blacklist asp html php").required(false).multiple_values(true))
@@ -45,8 +43,9 @@ pub fn get_matches() -> ArgMatches {
 }
 
 fn validate_dir(path: &str) -> Result<(), String> {
-    match Path::new(path).is_dir() {
-        true => Ok(()),
-        false => Err(format!("Cannot access directory \"{}\"", path)),
+    if Path::new(path).is_dir() {
+        Ok(())
+    } else {
+        Err(format!("Cannot access directory \"{}\"", path))
     }
 }

@@ -56,12 +56,11 @@ pub async fn upload(req: HttpRequest, mut payload: Multipart) -> Result<web::Jso
         .await?;
 
         while let Some(chunk) = &field.next().await {
-            match chunk {
-                Ok(bytes) => file.write_all(bytes).await.map_err(Error::InternalServerError)?,
-                _ => {
-                    let _ = fs::remove_file(&file_path).await;
-                    return Err(Error::INTERNAL_SERVER_ERROR);
-                }
+            if let Ok(bytes) = chunk {
+                file.write_all(bytes).await.map_err(Error::InternalServerError)?;
+            } else {
+                let _unused = fs::remove_file(&file_path).await;
+                return Err(Error::INTERNAL_SERVER_ERROR);
             }
         }
 
@@ -85,7 +84,7 @@ pub async fn delete(req: HttpRequest, path: web::Path<(String, String)>) -> Resu
         if let Some(deletion_password) = &db::get_deletion_password(pool, file_stem, &file_extension).await? {
             validate_password(deletion_password, &path.1)?;
             db::delete_file(pool, file_stem, &file_extension).await?;
-            let _ = fs::remove_file(file_path).await;
+            let _unused = fs::remove_file(file_path).await;
             Ok("File has been deleted.")
         } else {
             Err(Error::UNAUTHORIZED)
@@ -114,10 +113,10 @@ async fn create_random_file(
     let file_stem = lib::get_random_text(rng, 8);
     let deletion_password = lib::get_random_text(rng, 24);
 
-    let filename = if !file_extension.is_empty() {
-        file_stem.to_owned() + "." + file_extension
+    let filename = if file_extension.is_empty() {
+        file_stem.clone()
     } else {
-        file_stem.to_owned()
+        file_stem.clone() + "." + file_extension
     };
 
     let file_path = config.output.join(&filename);
@@ -139,9 +138,9 @@ async fn create_random_file(
                 filename,
                 deletion_password,
             ));
-        } else {
-            db::delete_file(pool, &file_stem, file_extension).await?;
         }
+
+        db::delete_file(pool, &file_stem, file_extension).await?;
     }
 
     create_random_file(config, rng, pool, file_extension).await

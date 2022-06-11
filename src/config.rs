@@ -38,7 +38,7 @@ impl From<&ArgMatches> for AppConfig {
         Self {
             blacklist: matches
                 .values_of("blacklist")
-                .map(|values| values.map(|str| str.to_lowercase()).collect()),
+                .map(|values| values.map(str::to_lowercase).collect()),
             output: PathBuf::from(matches.value_of("output").unwrap()),
             password_hash: matches
                 .value_of("password")
