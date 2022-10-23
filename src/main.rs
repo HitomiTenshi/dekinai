@@ -14,7 +14,7 @@ async fn main() -> io::Result<()> {
     let app_config = AppConfig::from(&matches);
     let server_config = ServerConfig::from(&matches);
     let pool = server_config.open_database_pool().await.unwrap();
-    let port = app_config.port.clone();
+    let port = app_config.port;
 
     let mut server = HttpServer::new(move || {
         App::new()
