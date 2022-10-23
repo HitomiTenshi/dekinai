@@ -1,4 +1,4 @@
-use crate::lib::Error;
+use crate::util::Error;
 use sqlx::{query, query_scalar, SqlitePool};
 
 pub async fn get_deletion_password(

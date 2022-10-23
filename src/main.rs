@@ -5,8 +5,8 @@ use std::io;
 mod cli;
 mod config;
 mod db;
-mod lib;
 mod route;
+mod util;
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {

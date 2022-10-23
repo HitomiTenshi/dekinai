@@ -1,4 +1,4 @@
-use crate::{config::AppConfig, db, lib, lib::Error};
+use crate::{config::AppConfig, db, util, util::Error};
 use actix_multipart::Multipart;
 use actix_web::{get, http::header::HeaderMap, post, web, HttpRequest};
 use async_recursion::async_recursion;
@@ -34,7 +34,7 @@ pub async fn upload(req: HttpRequest, mut payload: Multipart) -> Result<web::Jso
     let base_url = get_base_url(config, headers)?;
 
     if let Some(mut field) = payload.try_next().await.map_err(Error::InternalServerError)? {
-        let file_extension = &lib::get_file_extension(
+        let file_extension = &util::get_file_extension(
             field
                 .content_disposition()
                 .get_filename()
@@ -78,7 +78,7 @@ pub async fn delete(req: HttpRequest, path: web::Path<(String, String)>) -> Resu
     let config = req.app_data::<AppConfig>().unwrap();
     let pool = req.app_data::<SqlitePool>().unwrap();
     let file_path = &config.output.join(&path.0);
-    let (file_stem, file_extension) = lib::get_file_stem_with_extension(&path.0);
+    let (file_stem, file_extension) = util::get_file_stem_with_extension(&path.0);
 
     if file_path.exists() {
         if let Some(deletion_password) = &db::get_deletion_password(pool, file_stem, &file_extension).await? {
@@ -110,8 +110,8 @@ async fn create_random_file(
     pool: &SqlitePool,
     file_extension: &str,
 ) -> Result<(File, PathBuf, String, String), Error> {
-    let file_stem = lib::get_random_text(rng, 8);
-    let deletion_password = lib::get_random_text(rng, 24);
+    let file_stem = util::get_random_text(rng, 8);
+    let deletion_password = util::get_random_text(rng, 24);
 
     let filename = if file_extension.is_empty() {
         file_stem.clone()
@@ -126,7 +126,7 @@ async fn create_random_file(
             pool,
             &file_stem,
             file_extension,
-            &lib::hash_password(rng, &deletion_password),
+            &util::hash_password(rng, &deletion_password),
         )
         .await?
         {
@@ -168,7 +168,7 @@ fn get_base_url(config: &AppConfig, headers: &HeaderMap) -> Result<String, Error
     if host == "localhost" {
         if let Some(port) = &config.port {
             base_url.push(':');
-            base_url.push_str(port);
+            base_url.push_str(&port.to_string());
         }
     }
 

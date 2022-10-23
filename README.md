@@ -27,27 +27,24 @@ For more information try `--help`:
 ```
 $ dekinai.exe --help
 
-dekinai 1.1.0
-Johann Rekowski <johann.rekowski@gmail.com>
 Dekinai is a simple and minimalistic file uploading API.
 It provides the bare minimum feature set for file hosting services, while also being fast and portable.
 
-USAGE:
-    dekinai.exe [OPTIONS] <OUTPUT_DIR>
+Usage: dekinai.exe [OPTIONS] <OUTPUT_DIRECTORY>
 
-ARGS:
-    <OUTPUT_DIR>    Sets the directory for uploaded files
+Arguments:
+  <OUTPUT_DIRECTORY>  Sets the directory for uploaded files
 
-OPTIONS:
-    -b, --blacklist <FILE_EXTENSIONS>...    Sets a list of disallowed file extensions
-                                            Usage: --blacklist asp html php
-    -d, --database <DATABASE_DIR>           Sets the directory for the SQLite database [default: ./]
-        --disable-port                      Disables port listening (Unix only)
-    -h, --help                              Print help information
-    -p, --port <NUMBER>                     Sets the port number to listen on [default: 54298]
-        --password <TEXT>                   Sets a password for API requests [env: DEKINAI_PASSWORD=]
-    -u, --unix <FILE>                       Sets the unix socket to listen on (Unix only)
-    -V, --version                           Print version information
+Options:
+  -p, --port [<NUMBER>]                 Sets the port number to listen on [default: 54298]
+  -u, --unix [<FILE>]                   Sets the unix socket to listen on (Unix only)
+  -d, --database [<DIRECTORY>]          Sets the directory for the SQLite database [default: ./]
+      --password [<TEXT>]               Sets a password for API requests [env: DEKINAI_PASSWORD=]
+  -b, --blacklist <FILE_EXTENSIONS>...  Sets a list of disallowed file extensions
+                                        Usage: --blacklist asp html php
+      --disable-port                    Disables port listening (Unix only)
+  -h, --help                            Print help information
+  -V, --version                         Print version information
 ```
 
 ## API

@@ -1,15 +1,15 @@
-use crate::lib;
+use crate::util;
 use clap::ArgMatches;
 use rand::thread_rng;
 use sqlx::{migrate, migrate::MigrateDatabase, sqlite::SqlitePoolOptions, Sqlite, SqlitePool};
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 #[derive(Clone)]
 pub struct AppConfig {
     pub blacklist: Option<Vec<String>>,
     pub output: PathBuf,
     pub password_hash: Option<String>,
-    pub port: Option<String>,
+    pub port: Option<u16>,
 }
 
 pub struct ServerConfig {
@@ -19,12 +19,12 @@ pub struct ServerConfig {
 
 impl From<&ArgMatches> for AppConfig {
     fn from(matches: &ArgMatches) -> Self {
-        let port: Option<String>;
+        let port: Option<u16>;
 
         #[cfg(unix)]
         {
-            port = if !matches.is_present("disable-port") {
-                Some(matches.value_of("port").unwrap().to_owned())
+            port = if !matches.get_flag("disable-port") {
+                matches.get_one::<u16>("port").copied()
             } else {
                 None
             };
@@ -32,17 +32,17 @@ impl From<&ArgMatches> for AppConfig {
 
         #[cfg(not(unix))]
         {
-            port = Some(matches.value_of("port").unwrap().to_owned());
+            port = matches.get_one::<u16>("port").copied();
         }
 
         Self {
             blacklist: matches
-                .values_of("blacklist")
-                .map(|values| values.map(str::to_lowercase).collect()),
-            output: PathBuf::from(matches.value_of("output").unwrap()),
+                .get_many::<String>("blacklist")
+                .map(|values| values.map(|value| value.to_lowercase()).collect()),
+            output: matches.get_one::<PathBuf>("output").unwrap().to_owned(),
             password_hash: matches
-                .value_of("password")
-                .map(|str| lib::hash_password(&mut thread_rng(), str)),
+                .get_one::<String>("password")
+                .map(|value| util::hash_password(&mut thread_rng(), value)),
             port,
         }
     }
@@ -51,10 +51,12 @@ impl From<&ArgMatches> for AppConfig {
 impl From<&ArgMatches> for ServerConfig {
     fn from(matches: &ArgMatches) -> Self {
         Self {
-            unix: matches.value_of("unix").map(PathBuf::from),
+            unix: matches.get_one::<PathBuf>("unix").cloned(),
             database_uri: format!(
                 "sqlite://{}",
-                Path::new(matches.value_of("database").unwrap())
+                matches
+                    .get_one::<PathBuf>("database")
+                    .unwrap()
                     .join("dekinai.sqlite")
                     .display()
             ),
