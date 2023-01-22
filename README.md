@@ -43,8 +43,8 @@ Options:
   -b, --blacklist <FILE_EXTENSIONS>...  Sets a list of disallowed file extensions
                                         Usage: --blacklist asp html php
       --disable-port                    Disables port listening (Unix only)
-  -h, --help                            Print help information
-  -V, --version                         Print version information
+  -h, --help                            Print help
+  -V, --version                         Print version
 ```
 
 ## API

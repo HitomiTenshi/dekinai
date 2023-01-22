@@ -19,7 +19,7 @@ fn validate_dir(value: &str) -> Result<PathBuf, String> {
     if path.is_dir() {
         Ok(path)
     } else {
-        Err(format!("Cannot access directory \"{}\"", value))
+        Err(format!("Cannot access directory \"{value}\""))
     }
 }
 

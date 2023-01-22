@@ -25,8 +25,8 @@ async fn main() -> io::Result<()> {
     });
 
     if let Some(port) = &port {
-        server = server.bind(&format!("127.0.0.1:{}", port))?;
-        println!("Server running at: http://localhost:{}/", port);
+        server = server.bind(&format!("127.0.0.1:{port}"))?;
+        println!("Server running at: http://localhost:{port}/");
     }
 
     #[cfg(unix)]
