@@ -1,7 +1,6 @@
 use crate::{config::AppConfig, db, util, util::Error};
 use actix_multipart::Multipart;
 use actix_web::{get, http::header::HeaderMap, post, web, HttpRequest};
-use async_recursion::async_recursion;
 use futures_util::{StreamExt, TryStreamExt};
 use pbkdf2::{
     password_hash::{PasswordHash, PasswordVerifier},
@@ -103,7 +102,6 @@ fn validate_password(hash: &str, password: &str) -> Result<(), Error> {
         .map_err(Error::Unauthorized)
 }
 
-#[async_recursion(?Send)]
 async fn create_random_file(
     config: &AppConfig,
     rng: &mut ThreadRng,
@@ -143,7 +141,7 @@ async fn create_random_file(
         db::delete_file(pool, &file_stem, file_extension).await?;
     }
 
-    create_random_file(config, rng, pool, file_extension).await
+    Box::pin(create_random_file(config, rng, pool, file_extension)).await
 }
 
 fn get_base_url(config: &AppConfig, headers: &HeaderMap) -> Result<String, Error> {

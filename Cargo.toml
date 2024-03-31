@@ -8,14 +8,13 @@ authors = ["Johann Rekowski <johann.rekowski@gmail.com>"]
 repository = "https://github.com/HitomiTenshi/dekinai.git"
 license = "MIT"
 edition = "2021"
-rust-version = "1.67.1"
+rust-version = "1.77.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 actix-multipart = "0.6"
 actix-web = { version = "4", default-features = false, features = ["macros"] }
-async-recursion = "1"
 clap = { version = "4", features = ["cargo", "env", "wrap_help"] }
 derive_more = { version = "0.99", default-features = false, features = ["display", "error"] }
 futures-util = { version = "0.3", default-features = false }
