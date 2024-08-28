@@ -36,6 +36,7 @@ pub async fn upload(req: HttpRequest, mut payload: Multipart) -> Result<web::Jso
         let file_extension = &util::get_file_extension(
             field
                 .content_disposition()
+                .ok_or(Error::BAD_REQUEST)?
                 .get_filename()
                 .ok_or(Error::BAD_REQUEST)?,
         );

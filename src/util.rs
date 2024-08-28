@@ -1,5 +1,5 @@
 use actix_web::{error::ResponseError, http::StatusCode, HttpResponse};
-use derive_more::{Display, Error};
+use derive_more::{Display, Error as DeriveError};
 use pbkdf2::{
     password_hash::{PasswordHasher, SaltString},
     Params, Pbkdf2,
@@ -9,7 +9,7 @@ use std::{ffi::OsStr, path::Path};
 
 #[allow(clippy::upper_case_acronyms)]
 #[allow(non_camel_case_types)]
-#[derive(Debug, Display, Error)]
+#[derive(Debug, Display, DeriveError)]
 pub enum Error {
     BAD_REQUEST,
     INTERNAL_SERVER_ERROR,
