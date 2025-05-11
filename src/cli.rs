@@ -1,4 +1,4 @@
-use clap::{arg, command, value_parser, ArgAction, ArgMatches};
+use clap::{ArgAction, ArgMatches, arg, command, value_parser};
 use std::path::PathBuf;
 
 pub fn get_matches() -> ArgMatches {

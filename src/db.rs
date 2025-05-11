@@ -1,5 +1,5 @@
 use crate::util::Error;
-use sqlx::{query, query_scalar, SqlitePool};
+use sqlx::{SqlitePool, query, query_scalar};
 
 pub async fn get_deletion_password(
     pool: &SqlitePool,
@@ -7,12 +7,12 @@ pub async fn get_deletion_password(
     file_extension: &str,
 ) -> Result<Option<String>, Error> {
     query_scalar(
-        r#"
+        "
             SELECT DELETION_PASSWORD
             FROM UPLOADS
             WHERE FILE_STEM = ?
             AND FILE_EXTENSION = ?
-        "#,
+        ",
     )
     .bind(file_stem)
     .bind(file_extension)
@@ -28,10 +28,10 @@ pub async fn insert_file(
     deletion_password: &str,
 ) -> Result<bool, Error> {
     let res = query(
-        r#"
+        "
             INSERT INTO UPLOADS
             VALUES (?, ?, ?)
-        "#,
+        ",
     )
     .bind(file_stem)
     .bind(file_extension)
@@ -52,11 +52,11 @@ pub async fn insert_file(
 
 pub async fn delete_file(pool: &SqlitePool, file_stem: &str, file_extension: &str) -> Result<(), Error> {
     query(
-        r#"
+        "
             DELETE FROM UPLOADS
             WHERE FILE_STEM = ?
             AND FILE_EXTENSION = ?
-        "#,
+        ",
     )
     .bind(file_stem)
     .bind(file_extension)

@@ -1,17 +1,17 @@
 use crate::{config::AppConfig, db, util, util::Error};
 use actix_multipart::Multipart;
 use actix_web::{HttpRequest, get, http::header::HeaderMap, post, web};
-use futures_util::{StreamExt, TryStreamExt};
+use futures_util::{StreamExt as _, TryStreamExt as _};
 use pbkdf2::{
     Pbkdf2,
-    password_hash::{PasswordHash, PasswordVerifier},
+    password_hash::{PasswordHash, PasswordVerifier as _},
 };
 use rand::{prelude::ThreadRng, thread_rng};
 use sqlx::SqlitePool;
 use std::path::PathBuf;
 use tokio::{
     fs::{self, File},
-    io::AsyncWriteExt,
+    io::AsyncWriteExt as _,
 };
 
 #[post("/")]

@@ -1,7 +1,7 @@
 use crate::util;
 use clap::ArgMatches;
 use rand::thread_rng;
-use sqlx::{Sqlite, SqlitePool, migrate, migrate::MigrateDatabase, sqlite::SqlitePoolOptions};
+use sqlx::{Sqlite, SqlitePool, migrate, migrate::MigrateDatabase as _, sqlite::SqlitePoolOptions};
 use std::path::PathBuf;
 
 #[derive(Clone)]
@@ -12,6 +12,7 @@ pub struct AppConfig {
     pub port: Option<u16>,
 }
 
+#[allow(dead_code)]
 pub struct ServerConfig {
     pub unix: Option<PathBuf>,
     database_uri: String,
@@ -28,12 +29,12 @@ impl From<&ArgMatches> for AppConfig {
             } else {
                 None
             };
-        }
+        };
 
         #[cfg(not(unix))]
         {
             port = matches.get_one::<u16>("port").copied();
-        }
+        };
 
         Self {
             blacklist: matches

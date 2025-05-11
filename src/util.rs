@@ -2,13 +2,13 @@ use actix_web::{HttpResponse, error::ResponseError, http::StatusCode};
 use derive_more::{Display, Error as DeriveError};
 use pbkdf2::{
     Params, Pbkdf2,
-    password_hash::{PasswordHasher, SaltString},
+    password_hash::{PasswordHasher as _, SaltString},
 };
-use rand::{Rng, distributions::Alphanumeric, prelude::ThreadRng};
+use rand::{Rng as _, distributions::Alphanumeric, prelude::ThreadRng};
 use std::{ffi::OsStr, path::Path};
 
-#[allow(clippy::upper_case_acronyms)]
-#[allow(non_camel_case_types)]
+#[expect(clippy::upper_case_acronyms)]
+#[expect(non_camel_case_types)]
 #[derive(Debug, Display, DeriveError)]
 pub enum Error {
     BAD_REQUEST,
@@ -17,7 +17,7 @@ pub enum Error {
     UNAUTHORIZED,
 }
 
-#[allow(non_snake_case)]
+#[expect(non_snake_case)]
 impl Error {
     pub fn BadRequest<T>(_: T) -> Self {
         Self::BAD_REQUEST
