@@ -1,10 +1,10 @@
 use crate::{config::AppConfig, db, util, util::Error};
 use actix_multipart::Multipart;
-use actix_web::{get, http::header::HeaderMap, post, web, HttpRequest};
+use actix_web::{HttpRequest, get, http::header::HeaderMap, post, web};
 use futures_util::{StreamExt, TryStreamExt};
 use pbkdf2::{
-    password_hash::{PasswordHash, PasswordVerifier},
     Pbkdf2,
+    password_hash::{PasswordHash, PasswordVerifier},
 };
 use rand::{prelude::ThreadRng, thread_rng};
 use sqlx::SqlitePool;

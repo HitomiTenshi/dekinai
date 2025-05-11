@@ -1,7 +1,7 @@
 use crate::util;
 use clap::ArgMatches;
 use rand::thread_rng;
-use sqlx::{migrate, migrate::MigrateDatabase, sqlite::SqlitePoolOptions, Sqlite, SqlitePool};
+use sqlx::{Sqlite, SqlitePool, migrate, migrate::MigrateDatabase, sqlite::SqlitePoolOptions};
 use std::path::PathBuf;
 
 #[derive(Clone)]

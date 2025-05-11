@@ -1,10 +1,10 @@
-use actix_web::{error::ResponseError, http::StatusCode, HttpResponse};
+use actix_web::{HttpResponse, error::ResponseError, http::StatusCode};
 use derive_more::{Display, Error as DeriveError};
 use pbkdf2::{
-    password_hash::{PasswordHasher, SaltString},
     Params, Pbkdf2,
+    password_hash::{PasswordHasher, SaltString},
 };
-use rand::{distributions::Alphanumeric, prelude::ThreadRng, Rng};
+use rand::{Rng, distributions::Alphanumeric, prelude::ThreadRng};
 use std::{ffi::OsStr, path::Path};
 
 #[allow(clippy::upper_case_acronyms)]
